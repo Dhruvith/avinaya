@@ -23,7 +23,7 @@ export default function HeroSection() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-screen flex items-center overflow-hidden hero-animated-bg"
       style={{ paddingTop: "6rem" }}
     >
       {/* Mandala watermark de fondo como elemento decorativo indio */}
@@ -78,7 +78,7 @@ export default function HeroSection() {
               />
               <span
                 className="text-xs font-semibold tracking-[0.3em] uppercase"
-                style={{ color: "var(--sage)" }}
+                style={{ color: "var(--sage)", opacity: 0.85 }}
               >
                 The AI Marketing & Automation Studio
               </span>
@@ -105,8 +105,8 @@ export default function HeroSection() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 3.8, duration: 0.8 }}
-              className="text-lg md:text-xl max-w-md leading-relaxed mb-10 opacity-70"
-              style={{ color: "var(--cream)" }}
+              className="text-lg md:text-xl max-w-md leading-relaxed mb-10"
+              style={{ color: "var(--cream)", opacity: 0.85 }}
             >
               We build marketing systems that work while you sleep.
               Automation that your customers actually enjoy talking to.
@@ -120,7 +120,7 @@ export default function HeroSection() {
               className="flex flex-wrap gap-4 items-center"
             >
               <a href="#contact" className="magnetic-btn" id="hero-cta">
-                Start Your Pilot
+                Book Free Strategy Call
                 <svg
                   className="ml-2 w-4 h-4"
                   fill="none"
@@ -142,6 +142,21 @@ export default function HeroSection() {
               >
                 See what we build →
               </a>
+            </motion.div>
+
+            {/* Trust badges */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 4.8, duration: 0.6 }}
+              className="flex flex-wrap gap-3 mt-6"
+            >
+              <span className="badge badge-outline">
+                ⭐ 4.9/5 from 50+ clients
+              </span>
+              <span className="badge badge-outline">
+                🛡️ No credit card required
+              </span>
             </motion.div>
           </motion.div>
         </div>

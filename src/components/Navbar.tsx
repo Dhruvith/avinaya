@@ -72,7 +72,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium transition-colors duration-300 hover:opacity-100 opacity-60"
+                className="text-sm font-medium transition-colors duration-300 hover:opacity-100 opacity-60 animated-underline"
                 style={{ color: "var(--cream)" }}
               >
                 {link.label}
@@ -83,7 +83,7 @@ export default function Navbar() {
               className="magnetic-btn text-sm"
               style={{ padding: "0.6rem 1.5rem", animation: "none" }}
             >
-              Start Your Pilot
+              Book Free Call
             </a>
           </div>
 
@@ -147,7 +147,7 @@ export default function Navbar() {
               transition={{ delay: 0.5 }}
               className="magnetic-btn mt-4"
             >
-              Start Your Pilot
+              Book Free Call
             </motion.a>
           </motion.div>
         )}

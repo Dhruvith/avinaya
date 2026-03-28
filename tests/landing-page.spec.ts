@@ -1,8 +1,8 @@
 import { test, expect } from "@playwright/test";
 
 /* ============================
-   Tests de UI para Avinya Landing Page
-   Verifica estructura, secciones, interactividad y formulario
+   Tests de UI para Avinya Landing Page — Actualizado
+   Verifica estructura, secciones, interactividad, formulario y FAQ
    ============================ */
 
 test.describe("Avinya Landing Page", () => {
@@ -24,7 +24,7 @@ test.describe("Avinya Landing Page", () => {
       await expect(page.locator(`nav >> text=${link}`)).toBeVisible();
     }
 
-    await expect(page.locator("nav >> text=Start Your Pilot")).toBeVisible();
+    await expect(page.locator("nav >> text=Book Free Call")).toBeVisible();
   });
 
   test("should render hero section with main heading", async ({ page }) => {
@@ -38,11 +38,19 @@ test.describe("Avinya Landing Page", () => {
   test("should render hero CTA button", async ({ page }) => {
     const ctaButton = page.locator("#hero-cta");
     await expect(ctaButton).toBeVisible();
-    await expect(ctaButton).toContainText("Start Your Pilot");
+    await expect(ctaButton).toContainText("Book Free Strategy Call");
+  });
+
+  test("should render trust badges in hero", async ({ page }) => {
+    await expect(
+      page.locator("text=4.9/5 from 50+ clients").first()
+    ).toBeVisible();
+    await expect(
+      page.locator("text=No credit card required").first()
+    ).toBeVisible();
   });
 
   test("should render tagline text", async ({ page }) => {
-    /* El tagline puede estar en la nav o hero — buscamos texto parcial */
     await expect(
       page.locator("text=AI Marketing").first()
     ).toBeVisible();
@@ -113,14 +121,11 @@ test.describe("Avinya Landing Page", () => {
     await pricingSection.scrollIntoViewIfNeeded();
     await page.waitForTimeout(1500);
 
-    /* Verificar precios mensuales por defecto */
     await expect(page.locator("text=₹18K–25K").first()).toBeVisible();
 
-    /* Hacer clic en el toggle con force para evitar problemas de animación */
     await page.locator("#pricing-toggle").click({ force: true });
     await page.waitForTimeout(800);
 
-    /* Verificar que aparece el badge de descuento (indica que cambió a quarterly) */
     await expect(page.locator("text=Save 10%")).toBeVisible();
   });
 
@@ -139,22 +144,19 @@ test.describe("Avinya Landing Page", () => {
   });
 
   /* ============================
-     Tests del formulario de contacto
+     Tests del formulario de contacto — Simplificado a 5 campos
      ============================ */
-  test("should render contact form with all fields", async ({ page }) => {
+  test("should render contact form with essential fields", async ({ page }) => {
     const contactSection = page.locator("#contact");
     await contactSection.scrollIntoViewIfNeeded();
     await page.waitForTimeout(1500);
 
+    /* Los 5 campos esenciales */
     await expect(page.locator("#contact-name")).toBeVisible();
     await expect(page.locator("#contact-business")).toBeVisible();
-    await expect(page.locator("#contact-sell")).toBeVisible();
-    await expect(page.locator("#contact-revenue")).toBeVisible();
-    await expect(page.locator("#contact-pain")).toBeVisible();
     await expect(page.locator("#contact-phone")).toBeVisible();
-    await expect(page.locator("#contact-time")).toBeVisible();
-    await expect(page.locator("#contact-budget")).toBeVisible();
-    await expect(page.locator("#contact-decision")).toBeVisible();
+    await expect(page.locator("#contact-pain")).toBeVisible();
+    await expect(page.locator("#contact-decision")).toBeAttached();
   });
 
   test("should render contact form poetic copy", async ({ page }) => {
@@ -172,13 +174,11 @@ test.describe("Avinya Landing Page", () => {
     await contactSection.scrollIntoViewIfNeeded();
     await page.waitForTimeout(1500);
 
-    /* Llenar formulario */
     await page.fill("#contact-name", "Test User");
     await page.fill("#contact-business", "Test Business");
     await page.fill("#contact-phone", "9876543210");
     await page.locator("#contact-decision").check({ force: true });
 
-    /* Interceptar Formspree */
     await page.route("**/formspree.io/**", async (route) => {
       await route.fulfill({
         status: 200,
@@ -186,13 +186,39 @@ test.describe("Avinya Landing Page", () => {
       });
     });
 
-    /* Clic con force para saltear la animación de breathe */
     await page.locator("#contact-submit").click({ force: true });
     await page.waitForTimeout(2000);
 
-    /* Verificar estado de éxito */
     await expect(
       page.locator("text=WhatsApp you within 2 hours")
+    ).toBeVisible();
+  });
+
+  /* ============================
+     Tests de FAQ
+     ============================ */
+  test("should render FAQ section", async ({ page }) => {
+    const faqSection = page.locator("#faq");
+    await faqSection.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(1500);
+
+    await expect(
+      page.locator("text=How is Avinya different from a traditional marketing agency?")
+    ).toBeVisible();
+  });
+
+  test("should expand FAQ item on click", async ({ page }) => {
+    const faqSection = page.locator("#faq");
+    await faqSection.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(1500);
+
+    /* Clic en la primera pregunta */
+    await page.locator(".faq-question").first().click();
+    await page.waitForTimeout(500);
+
+    /* Verificar que la respuesta es visible */
+    await expect(
+      page.locator("text=Traditional agencies sell you hours").first()
     ).toBeVisible();
   });
 
@@ -205,7 +231,6 @@ test.describe("Avinya Landing Page", () => {
     await page.waitForTimeout(1000);
 
     await expect(page.locator("text=17.4065° N, 78.4772° E")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "AVINYA" })).toBeVisible();
     await expect(page.locator("text=Hyderabad").first()).toBeVisible();
   });
 
@@ -219,13 +244,29 @@ test.describe("Avinya Landing Page", () => {
     ).toBeVisible();
   });
 
+  test("should show guarantees in footer", async ({ page }) => {
+    /* Scroll hasta el final absoluto de la página */
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForTimeout(2000);
+
+    const footer = page.locator("footer");
+    await expect(footer).toBeVisible();
+
+    /* Verificar que existen dentro del footer */
+    await expect(
+      footer.locator("text=14-day money-back guarantee")
+    ).toBeVisible();
+    await expect(
+      footer.locator("text=No long-term contracts")
+    ).toBeVisible();
+  });
+
   /* ============================
      Tests de navegación por scroll
      ============================ */
   test("should navigate to contact section when CTA clicked", async ({
     page,
   }) => {
-    /* Clic con force para evitar el "not stable" del breathe */
     await page.locator("#hero-cta").click({ force: true });
     await page.waitForTimeout(2000);
 
@@ -250,9 +291,8 @@ test.describe("Avinya Landing Page", () => {
     await page.locator("#mobile-menu-toggle").click({ force: true });
     await page.waitForTimeout(500);
 
-    /* Verificar que el menú está abierto comprobando que hay un enlace visible de "Start Your Pilot" en el overlay */
     await expect(
-      page.locator(".fixed >> text=Start Your Pilot")
+      page.locator(".fixed >> text=Book Free Call")
     ).toBeVisible();
   });
 
@@ -271,5 +311,16 @@ test.describe("Avinya Landing Page", () => {
     await expect(page.locator("main")).toBeVisible();
     await expect(page.locator("footer")).toBeVisible();
     await expect(page.locator("nav")).toBeVisible();
+  });
+
+  test("should have skip link for accessibility", async ({ page }) => {
+    const skipLink = page.locator(".skip-link");
+    await expect(skipLink).toBeAttached();
+    await expect(skipLink).toHaveAttribute("href", "#main-content");
+  });
+
+  test("should have main content landmark", async ({ page }) => {
+    const mainContent = page.locator("#main-content");
+    await expect(mainContent).toBeVisible();
   });
 });

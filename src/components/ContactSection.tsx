@@ -4,33 +4,25 @@ import { useState, useRef, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 
 /* ============================
-   Sección de contacto — Pieza central del sitio
-   Formulario con floating labels + envío por EmailJS
+   Sección de contacto simplificada — 5 campos esenciales
+   Reduce fricción para mejorar conversión
    Confetti burst al éxito del envío
    ============================ */
 
-/* Tipos para el estado del formulario */
+/* Tipos para el estado del formulario — Simplificado a 5 campos */
 interface FormData {
   name: string;
   businessName: string;
-  whatYouSell: string;
-  monthlyRevenue: string;
-  painPoint: string;
   phone: string;
-  contactTime: string;
-  budgetMindset: string;
+  painPoint: string;
   isDecisionMaker: boolean;
 }
 
 const INITIAL_FORM: FormData = {
   name: "",
   businessName: "",
-  whatYouSell: "",
-  monthlyRevenue: "",
-  painPoint: "",
   phone: "",
-  contactTime: "",
-  budgetMindset: "",
+  painPoint: "",
   isDecisionMaker: false,
 };
 
@@ -83,15 +75,13 @@ export default function ContactSection() {
     }));
     setConfettiParticles(particles);
 
-    /* Limpiar confetti después de la animación */
     setTimeout(() => setConfettiParticles([]), 3000);
   };
 
-  /* Envío del formulario mediante Formspree (invisible al usuario) */
+  /* Envío del formulario a Formspree */
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    /* Validaciones del lado del cliente */
     if (!formData.name || !formData.businessName || !formData.phone) {
       alert("Please fill in all required fields.");
       return;
@@ -110,22 +100,15 @@ export default function ContactSection() {
     setSubmitState("loading");
 
     try {
-      /* Envío a Formspree — endpoint configurado externamente */
       const response = await fetch("https://formspree.io/f/xpwdkjqr", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           _subject: `New Lead from Avinya: ${formData.businessName}`,
           name: formData.name,
           business_name: formData.businessName,
-          what_you_sell: formData.whatYouSell,
-          monthly_revenue: formData.monthlyRevenue,
-          pain_point: formData.painPoint,
           phone: formData.phone,
-          contact_time: formData.contactTime,
-          budget_mindset: formData.budgetMindset,
+          pain_point: formData.painPoint,
           is_decision_maker: formData.isDecisionMaker ? "Yes" : "No",
           _replyto: "dhruvith2004@gmail.com",
         }),
@@ -138,7 +121,7 @@ export default function ContactSection() {
         throw new Error("Form submission failed");
       }
     } catch {
-      /* Fallback graceful — intenta enviar por email nativo como respaldo */
+      /* Fallback graceful */
       console.warn("Primary form submission failed, attempting fallback.");
       setSubmitState("success");
       spawnConfetti();
@@ -151,7 +134,7 @@ export default function ContactSection() {
       id="contact"
       className="py-24 md:py-32 relative"
     >
-      {/* Partículas de confetti al éxito */}
+      {/* Confetti al éxito */}
       {confettiParticles.map((particle) => (
         <div
           key={particle.id}
@@ -170,7 +153,7 @@ export default function ContactSection() {
 
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Columna izquierda: Copy poético */}
+          {/* Columna izquierda: Copy poético con indicadores de confianza */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -188,7 +171,7 @@ export default function ContactSection() {
             </div>
 
             <h2
-              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6"
               style={{ fontFamily: "var(--font-heading)", color: "var(--cream)" }}
             >
               Tell us what keeps you up at night.
@@ -200,24 +183,42 @@ export default function ContactSection() {
               We&apos;ll build the machine that lets you sleep.
             </p>
 
-            {/* Detalles de contacto secundarios */}
-            <div className="space-y-4 mt-12">
-              <div className="flex items-center gap-3 opacity-50">
-                <span className="text-lg">📍</span>
+            {/* Detalles de contacto con iconos */}
+            <div className="space-y-4 mt-8">
+              <div className="flex items-center gap-3 opacity-60">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(224, 122, 95, 0.1)" }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--terracotta)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
+                  </svg>
+                </div>
                 <span className="text-sm">Hyderabad, Telangana, India</span>
               </div>
-              <div className="flex items-center gap-3 opacity-50">
-                <span className="text-lg">⏰</span>
+              <div className="flex items-center gap-3 opacity-60">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(129, 178, 154, 0.1)" }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
+                  </svg>
+                </div>
                 <span className="text-sm">We respond within 2 hours on WhatsApp</span>
               </div>
-              <div className="flex items-center gap-3 opacity-50">
-                <span className="text-lg">🛡️</span>
+              <div className="flex items-center gap-3 opacity-60">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: "rgba(242, 204, 143, 0.1)" }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted-coral)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                  </svg>
+                </div>
                 <span className="text-sm">Your data stays between us. Always.</span>
               </div>
             </div>
+
+            {/* Badges de confianza */}
+            <div className="flex flex-wrap gap-3 mt-8">
+              <span className="badge badge-outline">🛡️ No credit card required</span>
+              <span className="badge badge-outline">⚡ Free pilot included</span>
+            </div>
           </motion.div>
 
-          {/* Columna derecha: Formulario completo */}
+          {/* Columna derecha: Formulario simplificado — 5 campos */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -253,7 +254,7 @@ export default function ContactSection() {
                 </p>
               </motion.div>
             ) : (
-              /* Formulario principal */
+              /* Formulario principal — Simplificado a 5 campos */
               <form onSubmit={handleSubmit} className="space-y-0">
                 {/* Nombre */}
                 <div className="form-group">
@@ -281,56 +282,6 @@ export default function ContactSection() {
                   />
                 </div>
 
-                {/* Qué venden */}
-                <div className="form-group">
-                  <label htmlFor="contact-sell">What do you sell?</label>
-                  <select
-                    id="contact-sell"
-                    value={formData.whatYouSell}
-                    onChange={handleChange("whatYouSell")}
-                  >
-                    <option value="">Select an option</option>
-                    <option value="Physical Products">Physical Products</option>
-                    <option value="Services">Services</option>
-                    <option value="Courses">Courses</option>
-                    <option value="Real Estate">Real Estate</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-
-                {/* Ingreso mensual */}
-                <div className="form-group">
-                  <label htmlFor="contact-revenue">
-                    Current monthly revenue?
-                  </label>
-                  <select
-                    id="contact-revenue"
-                    value={formData.monthlyRevenue}
-                    onChange={handleChange("monthlyRevenue")}
-                  >
-                    <option value="">Select a range</option>
-                    <option value="Under ₹1L">Under ₹1L</option>
-                    <option value="₹1-5L">₹1–5L</option>
-                    <option value="₹5-20L">₹5–20L</option>
-                    <option value="₹20L+">₹20L+</option>
-                    <option value="Rather not say">Rather not say</option>
-                  </select>
-                </div>
-
-                {/* Punto de dolor principal */}
-                <div className="form-group">
-                  <label htmlFor="contact-pain">
-                    Biggest marketing pain point?
-                  </label>
-                  <textarea
-                    id="contact-pain"
-                    rows={3}
-                    value={formData.painPoint}
-                    onChange={handleChange("painPoint")}
-                    placeholder="We're posting daily but crickets..."
-                  />
-                </div>
-
                 {/* Teléfono/WhatsApp */}
                 <div className="form-group">
                   <label htmlFor="contact-phone">Phone / WhatsApp *</label>
@@ -346,42 +297,22 @@ export default function ContactSection() {
                   />
                 </div>
 
-                {/* Hora de contacto preferida */}
+                {/* Punto de dolor */}
                 <div className="form-group">
-                  <label htmlFor="contact-time">Preferred contact time?</label>
-                  <select
-                    id="contact-time"
-                    value={formData.contactTime}
-                    onChange={handleChange("contactTime")}
-                  >
-                    <option value="">When works for you?</option>
-                    <option value="Morning (9am-12pm)">Morning (9am–12pm)</option>
-                    <option value="Afternoon (12-4pm)">Afternoon (12–4pm)</option>
-                    <option value="Evening (4-8pm)">Evening (4–8pm)</option>
-                  </select>
-                </div>
-
-                {/* Mentalidad de presupuesto */}
-                <div className="form-group">
-                  <label htmlFor="contact-budget">Budget mindset?</label>
-                  <select
-                    id="contact-budget"
-                    value={formData.budgetMindset}
-                    onChange={handleChange("budgetMindset")}
-                  >
-                    <option value="">Where are you at?</option>
-                    <option value="Pilot first (₹8-15K)">
-                      Pilot first (₹8–15K)
-                    </option>
-                    <option value="Ready to scale (₹20K+)">
-                      Ready to scale (₹20K+)
-                    </option>
-                    <option value="Need custom quote">Need custom quote</option>
-                  </select>
+                  <label htmlFor="contact-pain">
+                    What&apos;s your biggest marketing challenge?
+                  </label>
+                  <textarea
+                    id="contact-pain"
+                    rows={3}
+                    value={formData.painPoint}
+                    onChange={handleChange("painPoint")}
+                    placeholder="Tell us what's not working... (optional)"
+                  />
                 </div>
 
                 {/* Checkbox de tomador de decisiones */}
-                <div className="flex items-start gap-3 mb-8 mt-6">
+                <div className="flex items-start gap-3 mb-8 mt-4">
                   <input
                     id="contact-decision"
                     type="checkbox"
@@ -398,7 +329,7 @@ export default function ContactSection() {
                   </label>
                 </div>
 
-                {/* Botón de envío con estados de carga y éxito */}
+                {/* Botón de envío con gradient glow */}
                 <button
                   type="submit"
                   disabled={submitState === "loading"}
@@ -420,7 +351,7 @@ export default function ContactSection() {
                       Sending...
                     </div>
                   ) : (
-                    "Start the Conversation"
+                    "Book Your Free Strategy Call →"
                   )}
                 </button>
 

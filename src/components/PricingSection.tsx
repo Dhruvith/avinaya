@@ -110,11 +110,14 @@ export default function PricingSection() {
             style={{ fontFamily: "var(--font-heading)", color: "var(--cream)" }}
           >
             Transparent pricing.<br />
-            <span style={{ color: "var(--sage)" }}>No surprises.</span>
+            <span className="gradient-text-sage">No surprises.</span>
           </h2>
           <p className="mt-4 text-lg opacity-60 max-w-lg mx-auto">
             Choose the plan that fits your ambition. All plans include a 
             2-week pilot period.
+          </p>
+          <p className="mt-2 text-sm opacity-40 max-w-lg mx-auto">
+            💰 14-day money-back guarantee • No long-term contracts
           </p>
 
           {/* Toggle Monthly/Quarterly */}
@@ -266,7 +269,7 @@ export default function PricingSection() {
                     : "1px solid rgba(244, 241, 222, 0.15)",
                 }}
               >
-                {tier.featured ? "Start Your Pilot" : "Learn More"}
+                {tier.featured ? "Start Free Pilot →" : "Learn More"}
               </a>
             </motion.div>
           ))}
