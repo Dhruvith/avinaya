@@ -1,45 +1,20 @@
-"use client";
-
-/* ============================
-   Barra de confianza con marquesina infinita
-   Solo tipografía, sin logos corporativos
-   ============================ */
-
 const TRUST_ITEMS = [
-  "63M+ Indian SMBs",
-  "25% Digital Ad Growth YoY",
-  "Hyderabad Tech Hub",
-  "₹2.1T Digital Economy",
-  "40% More WhatsApp Commerce",
-  "AI-First Marketing",
-  "Zero Cookie-Cutter Solutions",
-  "Built for Indian Businesses",
+  "Built for Indian SMBs",
+  "WhatsApp-first conversion flows",
+  "No cookie-cutter retainers",
+  "Premium systems, not more admin",
+  "Hyderabad-based, pan-India delivery",
+  "Revenue-focused automation design",
 ];
 
 export default function TrustBar() {
-  /* Se duplica el array para crear el loop infinito visual */
-  const duplicatedItems = [...TRUST_ITEMS, ...TRUST_ITEMS];
-
   return (
-    <section
-      className="py-6 overflow-hidden"
-      style={{
-        borderTop: "1px solid rgba(244, 241, 222, 0.05)",
-        borderBottom: "1px solid rgba(244, 241, 222, 0.05)",
-      }}
-      aria-label="Trust indicators"
-    >
-      <div className="marquee-container">
-        <div className="marquee-content">
-          {duplicatedItems.map((item, index) => (
-            <span key={index}>
+    <section className="value-band" aria-label="Trust indicators">
+      <div className="mx-auto max-w-7xl px-6 md:px-12">
+        <div className="value-scroll">
+          {TRUST_ITEMS.map((item) => (
+            <span key={item} className="value-pill">
               {item}
-              <span
-                className="inline-block mx-6 text-lg"
-                style={{ color: "var(--terracotta)", opacity: 0.4 }}
-              >
-                ◆
-              </span>
             </span>
           ))}
         </div>

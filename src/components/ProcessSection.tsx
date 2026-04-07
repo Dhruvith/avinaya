@@ -1,200 +1,115 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
-/* ============================
-   Sección de proceso con timeline vertical
-   Pasos: Audit → Build → Automate → Scale
-   Nodos interactivos que se expanden al hover
-   ============================ */
-
-interface ProcessStep {
-  step: string;
-  title: string;
-  shortDesc: string;
-  longDesc: string;
-  duration: string;
-  icon: string;
-}
-
-const STEPS: ProcessStep[] = [
+const STEPS = [
   {
     step: "01",
     title: "Audit",
-    shortDesc: "We dig deep into your current setup.",
-    longDesc:
-      "We analyze your existing marketing stack, conversion funnels, customer journey, and identify the highest-impact automation opportunities. No fluff reports — just actionable insights with specific ROI projections.",
+    short: "We inspect the current funnel, content quality, response lag, and missed revenue moments.",
+    long: "You get a practical diagnostic covering customer journey gaps, automation opportunities, offer clarity, and the highest-leverage fixes worth shipping first.",
     duration: "Week 1",
-    icon: "🔍",
   },
   {
     step: "02",
     title: "Build",
-    shortDesc: "Custom systems, not cookie-cutter templates.",
-    longDesc:
-      "We architect and build your personalized AI marketing system from scratch. Every chatbot response, every email sequence, every automation flow is designed around YOUR business logic and customer behavior patterns.",
-    duration: "Week 2-3",
-    icon: "🏗️",
+    short: "We design the flow, write the prompts, craft the copy, and shape the operating logic.",
+    long: "This is where landing assets, conversation frameworks, CTA logic, and reporting layers come together into a system built around your brand.",
+    duration: "Week 2",
   },
   {
     step: "03",
     title: "Automate",
-    shortDesc: "Connect everything into one brain.",
-    longDesc:
-      "We wire all components together — CRM, WhatsApp, email, ads, analytics. Your marketing runs on autopilot with intelligent triggers, conditional logic, and human-level personalization at scale.",
-    duration: "Week 3-4",
-    icon: "⚙️",
+    short: "Ads, CRM, WhatsApp, notifications, and follow-up routes are wired into one conversion layer.",
+    long: "We remove manual friction by connecting inputs and outputs cleanly so every campaign, enquiry, and sales handoff moves without admin sprawl.",
+    duration: "Week 3",
   },
   {
     step: "04",
     title: "Scale",
-    shortDesc: "Growth on your terms, not ours.",
-    longDesc:
-      "Once the system proves ROI, we optimize and expand. Add new channels, refine AI models, increase ad spend with confidence. Monthly reviews ensure your system evolves with your business.",
-    duration: "Ongoing",
-    icon: "🚀",
+    short: "After proof, we tune performance, deepen segmentation, and expand channels without losing clarity.",
+    long: "The system is refined with conversion data, campaign learnings, and new growth experiments so you compound from a stable foundation rather than patchwork.",
+    duration: "Week 4+",
   },
 ];
 
 export default function ProcessSection() {
-  const [expandedStep, setExpandedStep] = useState<number | null>(null);
-  const sectionRef = useRef<HTMLElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const [openIndex, setOpenIndex] = useState<number>(0);
 
   return (
-    <section
-      ref={sectionRef}
-      id="process"
-      className="py-24 md:py-32 relative"
-    >
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Columna izquierda: Encabezado de la sección */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <div
-                className="w-8 h-[2px]"
-                style={{ background: "var(--muted-coral)" }}
-              />
-              <span
-                className="text-xs font-semibold tracking-[0.3em] uppercase"
-                style={{ color: "var(--muted-coral)" }}
-              >
-                How It Works
-              </span>
-            </div>
-            <h2
-              className="text-4xl md:text-6xl font-bold leading-tight mb-6"
-              style={{
-                fontFamily: "var(--font-heading)",
-                color: "var(--cream)",
-              }}
-            >
-              From chaos to
+    <section id="process" className="section-shell">
+      <div className="mx-auto max-w-7xl px-6 md:px-12">
+        <div className="process-grid">
+          <div className="section-heading mb-0">
+            <div className="eyebrow">How it works</div>
+            <h2>
+              Fast enough to move.
               <br />
-              <span style={{ color: "var(--muted-coral)" }}>clarity</span>.
+              Structured enough to scale.
             </h2>
-            <p className="text-lg opacity-60 max-w-md">
-              Four weeks from &quot;we need help&quot; to &quot;why didn&apos;t
-              we do this sooner?&quot; — here&apos;s our battle-tested process.
+            <p>
+              The operating model is simple on purpose: diagnose clearly, build
+              deliberately, automate the right pieces, then optimise from evidence.
             </p>
+          </div>
 
-            {/* SVG decorativo que conecta los pasos visualmente */}
-            <div className="hidden lg:block mt-12">
-              <svg
-                width="200"
-                height="300"
-                viewBox="0 0 200 300"
-                fill="none"
-                className="opacity-20"
-              >
-                <motion.path
-                  d="M 10 10 Q 100 60 50 150 Q 10 200 150 280"
-                  stroke="var(--muted-coral)"
-                  strokeWidth="1.5"
-                  strokeDasharray="5 5"
-                  initial={{ pathLength: 0 }}
-                  animate={isInView ? { pathLength: 1 } : {}}
-                  transition={{ duration: 2, delay: 0.5 }}
-                />
-              </svg>
-            </div>
-          </motion.div>
-
-          {/* Columna derecha: Timeline vertical con nodos interactivos */}
-          <div className="relative">
-            {/* Línea vertical del timeline */}
-            <div
-              className="absolute left-[7px] top-0 bottom-0 w-[2px]"
-              style={{ background: "rgba(242, 204, 143, 0.15)" }}
-            />
-
-            {STEPS.map((step, index) => (
-              <motion.div
-                key={step.step}
-                initial={{ opacity: 0, x: 30 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.3 + index * 0.2 }}
-                className="timeline-node"
-                onMouseEnter={() => setExpandedStep(index)}
-                onMouseLeave={() => setExpandedStep(null)}
-                onClick={() =>
-                  setExpandedStep(expandedStep === index ? null : index)
-                }
-              >
-                {/* Encabezado del paso */}
-                <div className="flex items-center gap-4 mb-2">
-                  <span className="text-2xl">{step.icon}</span>
-                  <div>
-                    <span
-                      className="text-[0.65rem] font-semibold tracking-widest uppercase block"
-                      style={{ color: "var(--muted-coral)" }}
-                    >
-                      {step.duration}
-                    </span>
-                    <h3
-                      className="text-2xl font-bold"
-                      style={{
-                        fontFamily: "var(--font-heading)",
-                        color: "var(--cream)",
-                      }}
-                    >
-                      {step.title}
-                    </h3>
-                  </div>
-                </div>
-
-                {/* Descripción corta siempre visible */}
-                <p className="text-sm opacity-60 mb-2">{step.shortDesc}</p>
-
-                {/* Descripción expandida al hover/click */}
-                <motion.div
-                  initial={false}
-                  animate={{
-                    height: expandedStep === index ? "auto" : 0,
-                    opacity: expandedStep === index ? 1 : 0,
-                  }}
-                  transition={{ duration: 0.3 }}
-                  className="overflow-hidden"
+          <div className="grid gap-4">
+            {STEPS.map((step, index) => {
+              const isOpen = openIndex === index;
+              return (
+                <motion.article
+                  key={step.step}
+                  layout
+                  className="process-card"
+                  onMouseEnter={() => setOpenIndex(index)}
                 >
-                  <p
-                    className="text-sm leading-relaxed pt-2 pb-2"
-                    style={{
-                      color: "var(--cream)",
-                      opacity: 0.8,
-                      borderTop: "1px solid rgba(244, 241, 222, 0.1)",
-                    }}
-                  >
-                    {step.longDesc}
-                  </p>
-                </motion.div>
-              </motion.div>
-            ))}
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-start gap-4">
+                      <div className="process-index">{step.step}</div>
+                      <div>
+                        <div className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--text-muted)]">
+                          {step.duration}
+                        </div>
+                        <h3 className="mt-2 text-2xl font-extrabold tracking-[-0.04em] text-[var(--text)]">
+                          {step.title}
+                        </h3>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      className="focus-ring grid h-11 w-11 place-items-center rounded-2xl border border-[var(--line)] bg-white/80"
+                      aria-expanded={isOpen}
+                      aria-controls={`process-panel-${index}`}
+                      onClick={() => setOpenIndex(isOpen ? -1 : index)}
+                    >
+                      <motion.span animate={{ rotate: isOpen ? 45 : 0 }} className="text-2xl font-light">
+                        +
+                      </motion.span>
+                    </button>
+                  </div>
+
+                  <p className="text-[15px] text-[var(--text-soft)]">{step.short}</p>
+
+                  <AnimatePresence initial={false}>
+                    {isOpen ? (
+                      <motion.div
+                        id={`process-panel-${index}`}
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="overflow-hidden"
+                      >
+                        <div className="rounded-2xl bg-slate-50 px-5 py-4 text-[15px] text-[var(--text-soft)]">
+                          {step.long}
+                        </div>
+                      </motion.div>
+                    ) : null}
+                  </AnimatePresence>
+                </motion.article>
+              );
+            })}
           </div>
         </div>
       </div>

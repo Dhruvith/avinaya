@@ -1,30 +1,24 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
-/* ============================
-   Metadatos SEO completos con Open Graph y Twitter Cards
-   Incluye datos estructurados JSON-LD para Google
-   ============================ */
 export const metadata: Metadata = {
-  title: "Avinya — AI Marketing That Works While You Sleep | Hyderabad",
+  title: "Avinya | AI Marketing Systems for Indian Growth Teams",
   description:
-    "Transform your marketing with AI. Avinya builds automated systems that generate leads, nurture customers, and drive revenue 24/7. WhatsApp chatbots, content engines & lead gen automation for Indian SMBs.",
-  keywords:
-    "AI Marketing Agency India, AI automation Hyderabad, WhatsApp chatbot, lead generation AI, marketing automation India, D2C marketing, SMB automation",
+    "Avinya designs premium AI marketing systems, WhatsApp automation, and lead-generation funnels for modern Indian brands.",
   openGraph: {
-    title: "Avinya — AI Marketing That Works While You Sleep",
+    title: "Avinya | AI Marketing Systems",
     description:
-      "We build AI systems that feel human. Automated marketing, lead gen, and chatbots for Indian businesses. Start with a free pilot.",
-    type: "website",
+      "Premium AI automation, content systems, and revenue-focused growth infrastructure for Indian brands.",
     locale: "en_IN",
-    siteName: "Avinya AI Studio",
+    siteName: "Avinya",
+    type: "website",
     url: "https://avinya-flame.vercel.app",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Avinya — AI Marketing That Works While You Sleep",
+    title: "Avinya | AI Marketing Systems",
     description:
-      "Automated marketing systems for Indian SMBs. WhatsApp chatbots, AI content, lead gen — all on autopilot.",
+      "AI content, WhatsApp automation, and premium growth systems for Indian businesses.",
   },
   robots: {
     index: true,
@@ -37,52 +31,41 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  /* Datos estructurados JSON-LD para Google Rich Results */
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Avinya AI Studio",
-    description: "AI Marketing & Automation Studio based in Hyderabad, India",
+    "@type": "ProfessionalService",
+    name: "Avinya",
     url: "https://avinya-flame.vercel.app",
-    email: "dhruvith2004@gmail.com",
+    description:
+      "AI marketing and automation studio for Indian growth teams.",
+    areaServed: "India",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Hyderabad",
       addressRegion: "Telangana",
       addressCountry: "IN",
     },
-    sameAs: [],
-    foundingDate: "2024",
-    areaServed: {
-      "@type": "Country",
-      name: "India",
-    },
+    email: "dhruvith2004@gmail.com",
     serviceType: [
-      "AI Marketing Automation",
-      "WhatsApp Chatbot Development",
-      "Lead Generation",
-      "Content Automation",
+      "AI marketing systems",
+      "WhatsApp automation",
+      "Lead generation automation",
+      "Content operations",
     ],
   };
 
   return (
-    <html lang="en" className="h-full antialiased">
+    <html lang="en-IN" className="h-full antialiased">
       <head>
-        {/* Precarga de fuentes para mejor rendimiento */}
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        {/* Datos estructurados para SEO */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
-      <body className="min-h-full flex flex-col">
-        {/* Skip link para accesibilidad — permite saltar al contenido */}
+      <body className="min-h-full">
         <a href="#main-content" className="skip-link">
           Skip to main content
         </a>

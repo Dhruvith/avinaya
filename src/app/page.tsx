@@ -1,11 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence } from "framer-motion";
-
-/* ============================================
-   Componentes importados de archivos separados
-   ============================================ */
 import LoadingScreen from "@/components/LoadingScreen";
 import CursorBlob from "@/components/CursorBlob";
 import Navbar from "@/components/Navbar";
@@ -22,29 +18,18 @@ import Footer from "@/components/Footer";
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
-  /* Temporizador para ocultar la pantalla de carga después de 3 segundos */
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
-    return () => clearTimeout(timer);
+    const timer = window.setTimeout(() => setIsLoading(false), 1400);
+    return () => window.clearTimeout(timer);
   }, []);
 
   return (
-    <>
-      {/* Pantalla de carga con efecto typewriter */}
-      <AnimatePresence>{isLoading && <LoadingScreen />}</AnimatePresence>
-
-      {/* Textura de grano sobre toda la página */}
+    <div className="page-shell">
+      <AnimatePresence>{isLoading ? <LoadingScreen /> : null}</AnimatePresence>
       <div className="grain-overlay" aria-hidden="true" />
-
-      {/* Blob que sigue al cursor */}
       <CursorBlob />
-
-      {/* Navegación fija superior con glassmorphism */}
       <Navbar />
 
-      {/* Contenido principal de la página — id para skip-link */}
       <main id="main-content">
         <HeroSection />
         <TrustBar />
@@ -62,7 +47,11 @@ export default function Home() {
         <FAQSection />
       </main>
 
+      <a href="#contact" className="mobile-cta button-primary focus-ring">
+        Book Free Strategy Call
+      </a>
+
       <Footer />
-    </>
+    </div>
   );
 }
