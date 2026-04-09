@@ -44,8 +44,7 @@ export default function ProcessSection() {
           <div className="section-heading mb-0">
             <div className="eyebrow">How it works</div>
             <h2>
-              Fast enough to move.
-              <br />
+              Fast enough to move. <br className="hidden sm:block" />
               Structured enough to scale.
             </h2>
             <p>

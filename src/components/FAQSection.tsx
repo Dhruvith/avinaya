@@ -40,8 +40,7 @@ export default function FAQSection() {
         <div className="section-heading text-center">
           <div className="mx-auto eyebrow">FAQ</div>
           <h2>
-            Questions answered
-            <br />
+            Questions answered <br className="hidden sm:block" />
             without the fluff.
           </h2>
           <p className="mx-auto">

@@ -74,8 +74,7 @@ export default function ServicesSection() {
         <div className="section-heading">
           <div className="eyebrow">What we build</div>
           <h2>
-            Premium systems,
-            <br />
+            Premium systems, <br className="hidden sm:block" />
             not recycled services.
           </h2>
           <p>

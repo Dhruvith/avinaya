@@ -97,8 +97,7 @@ export default function ContactSection() {
               className="mt-6 text-[clamp(2.6rem,5vw,4.8rem)] font-extrabold tracking-[-0.05em] text-[var(--text)]"
               style={{ fontFamily: "var(--font-heading)", lineHeight: 1 }}
             >
-              Tell us what
-              <br />
+              Tell us what <br className="hidden sm:block" />
               is blocking growth.
             </h2>
             <p className="mt-5 max-w-xl text-[16px] text-[var(--text-soft)]">

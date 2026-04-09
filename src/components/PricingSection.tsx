@@ -59,8 +59,7 @@ export default function PricingSection() {
         <div className="section-heading text-center">
           <div className="mx-auto eyebrow">Investment</div>
           <h2>
-            Clear pricing.
-            <br />
+            Clear pricing. <br className="hidden sm:block" />
             Stronger value signal.
           </h2>
           <p className="mx-auto">

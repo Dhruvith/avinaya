@@ -197,6 +197,8 @@ video {
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  width: fit-content;
+  max-width: 100%;
   padding: 10px 14px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.72);
@@ -235,6 +237,7 @@ video {
   padding-top: 120px;
   padding-bottom: 72px;
   overflow: clip;
+  overflow-x: hidden;
 }
 
 .hero-shell::before {
@@ -447,8 +450,15 @@ video {
 
 .section-heading {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   margin-bottom: 40px;
+  min-width: 0;
+}
+
+.section-heading > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .section-heading h2 {
@@ -457,6 +467,7 @@ video {
   line-height: 1;
   letter-spacing: -0.04em;
   font-size: clamp(2.6rem, 5vw, 4.6rem);
+  text-wrap: balance;
 }
 
 .section-heading p {
@@ -512,6 +523,7 @@ video {
 .service-card {
   position: relative;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
   padding: 28px;
   border-radius: var(--radius-lg);
@@ -593,9 +605,19 @@ video {
   gap: 28px;
 }
 
+.process-grid > *,
+.contact-grid > *,
+.service-grid > *,
+.proof-grid > *,
+.pricing-grid > *,
+.footer-grid > * {
+  min-width: 0;
+}
+
 .process-card {
   position: relative;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   padding: 26px;
   border-radius: var(--radius-md);
@@ -621,6 +643,7 @@ video {
 
 .proof-card {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
   padding: 28px;
   border-radius: var(--radius-lg);
@@ -628,6 +651,10 @@ video {
   background: rgba(255, 255, 255, 0.88);
   box-shadow: var(--shadow-md);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.proof-card h3 {
+  overflow-wrap: anywhere;
 }
 
 .proof-card:hover {
@@ -657,6 +684,7 @@ video {
 
 .pricing-card {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
   padding: 28px;
   border-radius: var(--radius-lg);
@@ -757,6 +785,7 @@ video {
 
 .contact-points {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 14px;
 }
 
@@ -781,6 +810,7 @@ video {
 
 .form-grid {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
 }
 
@@ -836,6 +866,7 @@ video {
 
 .faq-wrap {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 14px;
 }
 
@@ -858,6 +889,10 @@ video {
   cursor: pointer;
 }
 
+.faq-question span:first-child {
+  min-width: 0;
+}
+
 .faq-answer {
   padding: 0 24px 22px;
   color: var(--text-soft);
@@ -868,7 +903,6 @@ video {
   inset: auto 16px 16px;
   z-index: 90;
   display: none;
-  width: calc(100% - 32px);
   box-shadow: 0 18px 44px rgba(19, 87, 214, 0.3);
   transition: opacity 0.24s ease, transform 0.24s ease;
 }
@@ -892,6 +926,7 @@ video {
 
 .footer-stack {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 14px;
 }
 
@@ -1005,6 +1040,10 @@ video {
     font-size: 1rem;
   }
 
+  .section-heading {
+    margin-bottom: 32px;
+  }
+
   .dashboard-card,
   .floating-insight,
   .service-card,
@@ -1048,6 +1087,10 @@ video {
     min-width: 0;
   }
 
+  .process-card {
+    padding: 22px;
+  }
+
   .stat-grid {
     grid-template-columns: 1fr;
   }
@@ -1073,6 +1116,11 @@ video {
 
   .hero-shell {
     padding-top: 96px;
+  }
+
+  .hero-shell::before,
+  .hero-shell::after {
+    display: none;
   }
 
   .eyebrow,
@@ -1107,6 +1155,7 @@ video {
   .section-heading h2,
   .contact-panel h2 {
     font-size: clamp(2rem, 12vw, 3rem) !important;
+    line-height: 1.04 !important;
   }
 
   .service-card h3,
@@ -1116,6 +1165,7 @@ video {
 
   .proof-card h3 {
     font-size: 2rem;
+    line-height: 1.05;
   }
 
   .pricing-card > div:nth-child(2) > div:first-child {

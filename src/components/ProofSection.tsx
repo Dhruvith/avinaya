@@ -54,8 +54,7 @@ export default function ProofSection() {
         <div className="section-heading">
           <div className="eyebrow">Real results</div>
           <h2>
-            Performance that looks
-            <br />
+            Performance that looks <br className="hidden sm:block" />
             as good as it converts.
           </h2>
           <p>
