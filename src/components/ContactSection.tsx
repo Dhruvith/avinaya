@@ -76,9 +76,8 @@ export default function ContactSection() {
       setMessage("We'll WhatsApp you within 2 hours.");
       setFormData(INITIAL_STATE);
     } catch {
-      setSubmitState("success");
-      setMessage("We'll WhatsApp you within 2 hours.");
-      setFormData(INITIAL_STATE);
+      setSubmitState("error");
+      setMessage("Submission failed. Please try again or email dhruvith2004@gmail.com.");
     }
   };
 
@@ -155,9 +154,11 @@ export default function ContactSection() {
                 <label htmlFor="contact-name">Your Name (required)</label>
                 <input
                   id="contact-name"
+                  name="name"
                   type="text"
                   required
                   aria-required="true"
+                  autoComplete="name"
                   value={formData.name}
                   onChange={(event) => updateField("name", event.target.value)}
                   placeholder="Full name"
@@ -168,9 +169,11 @@ export default function ContactSection() {
                 <label htmlFor="contact-business">Business Name (required)</label>
                 <input
                   id="contact-business"
+                  name="organization"
                   type="text"
                   required
                   aria-required="true"
+                  autoComplete="organization"
                   value={formData.businessName}
                   onChange={(event) => updateField("businessName", event.target.value)}
                   placeholder="Company or brand"
@@ -181,6 +184,7 @@ export default function ContactSection() {
                 <label htmlFor="contact-phone">Phone or WhatsApp (required)</label>
                 <input
                   id="contact-phone"
+                  name="tel"
                   type="tel"
                   required
                   aria-required="true"
@@ -188,6 +192,8 @@ export default function ContactSection() {
                   onChange={(event) => updateField("phone", event.target.value)}
                   placeholder="10-digit Indian number"
                   inputMode="tel"
+                  autoComplete="tel"
+                  maxLength={10}
                 />
               </div>
 
@@ -195,6 +201,7 @@ export default function ContactSection() {
                 <label htmlFor="contact-pain">What is your biggest marketing challenge?</label>
                 <textarea
                   id="contact-pain"
+                  name="marketing_challenge"
                   value={formData.painPoint}
                   onChange={(event) => updateField("painPoint", event.target.value)}
                   placeholder="Tell us what is not converting, scaling, or flowing cleanly."

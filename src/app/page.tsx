@@ -17,10 +17,43 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
+  const [showMobileCta, setShowMobileCta] = useState(true);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setIsLoading(false), 1400);
     return () => window.clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const observedElements: Element[] = [];
+    const contactSection = document.getElementById("contact");
+    const footer = document.querySelector("footer");
+
+    if (contactSection) {
+      observedElements.push(contactSection);
+    }
+
+    if (footer) {
+      observedElements.push(footer);
+    }
+
+    if (!observedElements.length) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const isCovered = entries.some((entry) => entry.isIntersecting);
+        setShowMobileCta(!isCovered);
+      },
+      {
+        rootMargin: "0px 0px -15% 0px",
+        threshold: 0.2,
+      }
+    );
+
+    observedElements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -47,7 +80,10 @@ export default function Home() {
         <FAQSection />
       </main>
 
-      <a href="#contact" className="mobile-cta button-primary focus-ring">
+      <a
+        href="#contact"
+        className={`mobile-cta button-primary focus-ring ${showMobileCta ? "is-visible" : "is-hidden"}`}
+      >
         Book Free Strategy Call
       </a>
 

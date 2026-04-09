@@ -22,6 +22,25 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMobileOpen(false);
+      }
+    };
+
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = isMobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileOpen]);
+
   return (
     <>
       <nav className="floating-nav" aria-label="Primary">
@@ -108,32 +127,43 @@ export default function Navbar() {
 
       <AnimatePresence>
         {isMobileOpen ? (
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            className="fixed inset-x-4 top-24 z-[95] rounded-[28px] border border-white/80 bg-white/92 p-6 shadow-[0_30px_100px_rgba(15,23,42,0.18)] backdrop-blur-xl md:hidden"
-          >
-            <div className="grid gap-3">
-              {NAV_LINKS.map((link) => (
+          <>
+            <motion.button
+              type="button"
+              aria-label="Close navigation menu"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[94] bg-[rgba(20,32,51,0.24)] backdrop-blur-[2px] md:hidden"
+              onClick={() => setIsMobileOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              className="fixed inset-x-4 top-24 z-[95] rounded-[28px] border border-white/80 bg-white/92 p-6 shadow-[0_30px_100px_rgba(15,23,42,0.18)] backdrop-blur-xl md:hidden"
+            >
+              <div className="grid gap-3">
+                {NAV_LINKS.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsMobileOpen(false)}
+                    className="focus-ring rounded-2xl px-4 py-3 text-base font-semibold text-[var(--text)] transition-colors hover:bg-slate-50"
+                  >
+                    {link.label}
+                  </a>
+                ))}
                 <a
-                  key={link.href}
-                  href={link.href}
+                  href="#contact"
                   onClick={() => setIsMobileOpen(false)}
-                  className="focus-ring rounded-2xl px-4 py-3 text-base font-semibold text-[var(--text)] transition-colors hover:bg-slate-50"
+                  className="button-primary focus-ring mt-2"
                 >
-                  {link.label}
+                  Book Free Call
                 </a>
-              ))}
-              <a
-                href="#contact"
-                onClick={() => setIsMobileOpen(false)}
-                className="button-primary focus-ring mt-2"
-              >
-                Book Free Call
-              </a>
-            </div>
-          </motion.div>
+              </div>
+            </motion.div>
+          </>
         ) : null}
       </AnimatePresence>
     </>
